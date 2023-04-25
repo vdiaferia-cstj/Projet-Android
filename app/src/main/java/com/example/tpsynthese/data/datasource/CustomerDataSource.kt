@@ -1,4 +1,4 @@
-package com.example.tpsynthese.data
+package com.example.tpsynthese.data.datasource
 
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
