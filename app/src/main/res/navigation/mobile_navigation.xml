@@ -3,23 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/nav_list_tickets">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.tpsynthese.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_list_tickets"
+        android:name="com.example.tpsynthese.ui.tickets.list.TicketsListFragment"
+        android:label="@string/title_tickets"
+        tools:layout="@layout/fragment_list_tickets">
+        <action
+            android:id="@+id/action_nav_list_tickets_to_ticketFragment"
+            app:destination="@id/ticketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketFragment"
+        android:name="com.example.tpsynthese.ui.tickets.detail.TicketsFragment"
+        android:label="TicketFragment"
+        tools:layout="@layout/fragment_list_tickets">
+        <argument
+            android:name="href"
+            app:argType="string" />
+    </fragment>
+
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.tpsynthese.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/gatewayFragment"
+        android:name="com.example.tpsynthese.ui.gateways.detail.GatewaysFragment"
+        android:label="GatewayFragment"
+        tools:layout="@layout/fragment_list_gateways">
+        <argument
+            android:name="href"
+            app:argType="string" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.tpsynthese.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/nav_network"
+        android:name="com.example.tpsynthese.ui.network.NetworkFragment"
+        android:label="@string/title_network"
+        tools:layout="@layout/fragment_networks" />
+    <fragment
+        android:id="@+id/nav_List_gateways"
+        android:name="com.example.tpsynthese.ui.gateways.list.GatewaysListFragment"
+        android:label="GatewaysListFragment"
+        tools:layout="@layout/fragment_list_gateways" >
+        <action
+            android:id="@+id/action_nav_List_gateways_to_nav_gateways"
+            app:destination="@id/gatewayFragment" />
+    </fragment>
 </navigation>
