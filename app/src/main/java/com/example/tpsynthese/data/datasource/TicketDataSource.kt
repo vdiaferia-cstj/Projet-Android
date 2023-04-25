@@ -1,16 +1,16 @@
-package com.example.tpsynthese.data
+package com.example.tpsynthese.data.datasource
 
-import com.example.tpsynthese.core.Constants
-import com.example.tpsynthese.core.JsonDataSource
-import com.example.tpsynthese.domain.models.Network
+import com.example.tpsynthese.domain.models.Ticket
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
+import com.example.tpsynthese.core.Constants
+import com.example.tpsynthese.core.JsonDataSource
 import kotlinx.serialization.decodeFromString
 
-class NetworkDataSource : JsonDataSource() {
-    fun retrieveAll(): List<Network> {
-        val (_, _, result) = Constants.BaseURL.NETWORK.httpGet().responseJson()
+class TicketDataSource : JsonDataSource() {
+    fun retrieveAll(): List<Ticket> {
+        val (_, _, result) = Constants.BaseURL.TICKETS.httpGet().responseJson()
 
         return when (result) {
             is Result.Success -> json.decodeFromString(result.value.content)
@@ -18,7 +18,7 @@ class NetworkDataSource : JsonDataSource() {
         }
     }
 
-    fun retrieveOne(href: String): Network {
+    fun retrieveOne(href: String): Ticket {
         val (_, _ , result) = href.httpGet().responseJson()
 
         return when(result) {
