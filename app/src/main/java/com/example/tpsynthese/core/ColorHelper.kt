@@ -1,9 +1,10 @@
-package ca.qc.cstj.tenretni.core
+package com.example.tpsynthese.core
 
 import android.content.Context
 import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
-import ca.qc.cstj.tenretni.R
+import com.example.tpsynthese.R
+
 
 object ColorHelper {
     fun ticketPriorityColor(context: Context, priority: String): ColorStateList {

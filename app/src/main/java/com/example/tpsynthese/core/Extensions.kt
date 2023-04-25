@@ -1,5 +1,4 @@
-package ca.qc.cstj.tenretni.core
-
+package com.example.tpsynthese.core
 import android.content.Context
 import android.widget.ImageView
 import com.google.android.material.textfield.TextInputLayout

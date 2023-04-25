@@ -1,5 +1,4 @@
-package ca.qc.cstj.tenretni.core
-
+package com.example.tpsynthese.core
 import kotlinx.serialization.json.Json
 
 abstract class JsonDataSource {

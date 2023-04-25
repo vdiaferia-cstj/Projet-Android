@@ -1,4 +1,4 @@
-package ca.qc.cstj.tenretni.core
+package com.example.tpsynthese.core
 
 import java.text.SimpleDateFormat
 import java.util.*
