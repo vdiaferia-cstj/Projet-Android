@@ -1,4 +1,4 @@
-package com.example.tpsynthese.data
+package com.example.tpsynthese.data.datasource
 
 import com.example.tpsynthese.core.Constants
 import com.example.tpsynthese.core.JsonDataSource
