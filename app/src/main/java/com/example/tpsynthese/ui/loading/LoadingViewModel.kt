@@ -14,8 +14,8 @@ class LoadingViewModel : ViewModel() {
 
     private var _timerCounter = 0;
     private var _progress = 0;
-
-    private val timer = object  :  CountDownTimer(10000, 1000){
+//TODO: Changer millisInFuture à la fin du TP pour un timer de 10 secondes et non 1 seconde.
+    private val timer = object  :  CountDownTimer(1000, 1000){
         override fun onTick(millisUntilFinished: Long) {
             _timerCounter++
             _progress += 10
