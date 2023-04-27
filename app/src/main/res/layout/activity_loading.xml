@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.loading.LoadingActivity">
+    tools:context=".ui.loading.LoadingActivity"
+    >
+
 
 
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/pgbLoading"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,7 +31,7 @@
         android:id="@+id/imvLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +43,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Loading 1/10..."
+        android:textStyle="bold"
+        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imvLogo" />
+
+    <TextView
+        android:id="@+id/txtNomReserve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="Tenretni - 2023®"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/pgbLoading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Vincent Diaferia\nJeremy Desjardins\nMaxime Blondin"
+        android:textAlignment="center"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtNomReserve"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

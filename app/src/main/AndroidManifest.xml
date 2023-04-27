@@ -14,7 +14,8 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.loading.LoadingActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:label="@string/Loading_Title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +25,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
+           >
 
         </activity>
     </application>
