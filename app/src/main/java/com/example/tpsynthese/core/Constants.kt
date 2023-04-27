@@ -25,4 +25,8 @@ object Constants {
         Online, Offline
     }
 
+    object RefreshDelay {
+        const val LOADING_DELAY: Long = 10000L
+    }
+
 }
