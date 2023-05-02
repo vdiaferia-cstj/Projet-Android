@@ -30,10 +30,10 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
 
         viewModel.ticketUiState.onEach {
             when(it){
-                TicketsUiState.Empty -> TODO()
-                is TicketsUiState.Error -> TODO()
+                TicketsUiState.Empty -> Unit
+                is TicketsUiState.Error -> Toast.makeText(requireContext(), it.exception.localizedMessage, Toast.LENGTH_LONG).show()
                 is TicketsUiState.Solved -> TODO()
-                is TicketsUiState.Success -> TODO()
+                is TicketsUiState.Success -> Toast.makeText(requireContext(), it.gateway.toString() , Toast.LENGTH_LONG).show()
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
@@ -42,8 +42,8 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
 
         when(qrResult){
             is QRResult.QRSuccess -> {
-                binding.txvCodeContent.text = qrResult.content.rawValue
-                viewModel.addCheckIn(qrResult.content.rawValue)
+               //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
+                viewModel.installGateway(qrResult.content.rawValue)
             }
             QRResult.QRUserCanceled -> binding.txvCodeContent.text = getString(R.string.user_canceled)
             QRResult.QRMissingPermission -> binding.txvCodeContent.text = getString(R.string.missing_permission)
