@@ -28,17 +28,4 @@ class GatewayDataSource : JsonDataSource(){
         }
 
     }
-
-
-    fun install(gateway: Gateway) : Gateway {
-        //Mettre en JSON
-        val body = json.encodeToString(gateway)
-        //Envoie au serveur avec un POST
-        val (_,_, result) = Constants.BaseURL.CHECKIN_URL.httpPost().jsonBody(body).responseJson()
-        //Gérer la réponse
-        return when(result){
-            is Result.Success -> json.decodeFromString(result.value.content)
-            is Result.Failure -> throw result.error.exception
-        }
-    }
 }

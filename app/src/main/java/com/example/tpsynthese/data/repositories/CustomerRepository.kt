@@ -3,6 +3,7 @@ package com.example.tpsynthese.data.repositories
 import com.example.tpsynthese.core.ApiResult
 import com.example.tpsynthese.data.datasource.CustomerDataSource
 import com.example.tpsynthese.domain.models.Customer
+import com.example.tpsynthese.domain.models.Gateway
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,6 +19,17 @@ class CustomerRepository {
             try {
                 emit(ApiResult.Success(customerDataSource.retrieveOne(href)))
             } catch (ex: Exception) {
+                emit(ApiResult.Error(ex))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+
+    fun install( href: String, gateway: Gateway) : Flow<ApiResult<Gateway>> {
+        return flow {
+            try {
+                emit(ApiResult.Success(gateway.install(gateway)))
+            } catch (ex: Exception){
                 emit(ApiResult.Error(ex))
             }
         }.flowOn(Dispatchers.IO)
