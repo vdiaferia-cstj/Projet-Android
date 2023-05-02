@@ -7,4 +7,5 @@ sealed class TicketsUiState {
     class Error(val exception: Exception) : TicketsUiState()
     class Success(val ticket:Ticket):TicketsUiState()
     class Solved(val ticket: Ticket):TicketsUiState()
+    object Empty: TicketsUiState()
 }
