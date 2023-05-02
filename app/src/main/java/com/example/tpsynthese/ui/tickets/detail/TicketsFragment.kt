@@ -31,6 +31,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
         }
 
         viewModel.ticketUiState.onEach {
+
             when (it) {
                 TicketsUiState.Empty -> TODO()
                 is TicketsUiState.Error -> {
@@ -59,8 +60,8 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
 
         when (qrResult) {
             is QRResult.QRSuccess -> {
-                binding.txvCodeContent.text = qrResult.content.rawValue
-                viewModel.addCheckIn(qrResult.content.rawValue)
+               //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
+                viewModel.installGateway(qrResult.content.rawValue)
             }
 
             QRResult.QRUserCanceled -> binding.txvCodeContent.text =
