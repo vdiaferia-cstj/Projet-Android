@@ -47,6 +47,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                 is TicketsUiState.Success -> {
                     binding.incTicketCard.txvTicket.text = it.ticket.ticketNumber.toString()
                     binding.incTicketCard.txvDate.text = it.ticket.createdDate.toString()
+                    //binding.incTicketCard.chipPriority.chipBackgroundColor = it.ticket.
                     //Besoin de changer la couleur des chips binding.incTicketCard.chipPriority
 
                     //Add contry flag Glide.with(this).load(it.ticket.)
