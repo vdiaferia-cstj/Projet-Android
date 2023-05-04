@@ -5,4 +5,6 @@
     <string name="title_network">Network</string>
     <string name="Loading_Title">Tenretni</string>
     <string name="loading_msg">Loading %d/10 ...\n</string>
+    <string name="ticket_msg">Ticket %s</string>
+    <string name="apiErrorMessage">Error while retriving the data from the server.</string>
 </resources>
