@@ -9,7 +9,7 @@ object Constants {
         const val CUSTOMERS = "$BASE_API/customers"
         const val GATEWAYS = "$BASE_API/gateways"
         const val NETWORK = "$BASE_API/network"
-        const val INSTALL = "$CUSTOMERS/"
+
 
     }
 
@@ -28,7 +28,10 @@ object Constants {
     }
 
     object RefreshDelay {
+        const val TICKET_DELAY:Long = 30 * 1000L
         const val LOADING_DELAY: Long = 10000L
     }
+
+
 
 }
