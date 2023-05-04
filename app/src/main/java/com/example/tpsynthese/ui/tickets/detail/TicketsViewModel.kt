@@ -7,14 +7,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tpsynthese.core.ApiResult
 import com.example.tpsynthese.data.repositories.CustomerRepository
-import com.example.tpsynthese.domain.models.Customer
+import com.example.tpsynthese.data.repositories.TicketRepository
 import com.example.tpsynthese.domain.models.Gateway
 import com.example.tpsynthese.domain.models.Ticket
 import com.github.kittinunf.fuel.json.jsonDeserializer
 import io.github.g00fy2.quickie.QRResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
@@ -25,6 +28,7 @@ import kotlinx.serialization.json.buildJsonObject
 
 class TicketsViewModel (private val href : String) : ViewModel() {
     private val customerRepository = CustomerRepository()
+    private val ticketRepository = TicketRepository()
     private val _ticketUiState = MutableStateFlow<TicketsUiState>(TicketsUiState.Empty)
     val ticketUiState = _ticketUiState.asStateFlow()
 
@@ -55,6 +59,11 @@ class TicketsViewModel (private val href : String) : ViewModel() {
             customerRepository.install(href, jsonGateway)
             }
         }
+
+    fun changeState(href:String,action:String) {
+        //val href = href;
+        ticketRepository.changeState(href,action)
+     }
    
 
 
