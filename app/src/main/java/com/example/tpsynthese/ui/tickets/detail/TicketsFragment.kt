@@ -16,10 +16,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class TicketsFragment : Fragment(R.layout.fragment_ticket) {
-
+    private val args: TicketsFragmentArgs by navArgs()
     private val binding: FragmentTicketBinding by viewBinding()
-    private val viewModel: TicketsViewModel by viewModels()
-    private val TicketsFragmentArgs: TicketsFragmentArgs by navArgs()
+    private val viewModel: TicketsViewModel by viewModels(){
+        TicketsViewModel.Factory(args.href)
+    }
 
     private val scanQRCode = registerForActivityResult(ScanQRCode(), ::handleQuickieResult)
 
@@ -64,14 +65,9 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
                 viewModel.installGateway(qrResult.content.rawValue)
             }
-
-            QRResult.QRUserCanceled -> binding.txvCodeContent.text =
-                getString(R.string.user_canceled)
-
-            QRResult.QRMissingPermission -> binding.txvCodeContent.text =
-                getString(R.string.missing_permission)
-
-            is QRResult.QRError -> binding.txvCodeContent.text = qrResult.exception.localizedMessage
+            QRResult.QRUserCanceled -> TODO()
+            QRResult.QRMissingPermission -> TODO()
+            is QRResult.QRError -> TODO()
         }
 
     }

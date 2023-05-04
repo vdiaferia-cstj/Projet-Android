@@ -8,14 +8,6 @@ import kotlinx.coroutines.flow.flow
 
 class GatewayRepository {
 
-    fun install(gateway: Gateway) : Flow<ApiResult<Gateway>> {
-        return flow {
-            try {
-                emit(ApiResult.Success(gateway.install(gateway)))
-            } catch (ex: Exception){
-                emit(ApiResult.Error(ex))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
+
 
 }
