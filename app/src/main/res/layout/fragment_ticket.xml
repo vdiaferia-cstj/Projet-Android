@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/incTicket"
+        android:id="@+id/incTicketCard"
         layout="@layout/ticket_card"
         android:layout_width="374dp"
         android:layout_height="71dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/incTicket"
+        android:id="@+id/incTicketInfo"
         layout="@layout/ticket_body"
         android:layout_width="384dp"
         android:layout_height="485dp"
