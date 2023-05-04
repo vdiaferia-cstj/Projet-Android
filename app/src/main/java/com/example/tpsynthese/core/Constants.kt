@@ -9,6 +9,8 @@ object Constants {
         const val CUSTOMERS = "$BASE_API/customers"
         const val GATEWAYS = "$BASE_API/gateways"
         const val NETWORK = "$BASE_API/network"
+        const val INSTALL = "$CUSTOMERS/"
+
     }
 
     const val FLAG_API_URL = "https://flagcdn.com/h40/%s.png"
