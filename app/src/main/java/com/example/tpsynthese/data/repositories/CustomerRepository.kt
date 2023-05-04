@@ -18,7 +18,9 @@ class CustomerRepository {
         return flow {
             emit(ApiResult.Loading)
             try {
-                emit(ApiResult.Success(customerDataSource.retrieveOne(href)))
+
+                val allo = ApiResult.Success(customerDataSource.retrieveOne(href))
+                emit(allo)
             } catch (ex: Exception) {
                 emit(ApiResult.Error(ex))
             }
