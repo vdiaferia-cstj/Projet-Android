@@ -13,18 +13,28 @@ import kotlinx.coroutines.flow.flowOn
 class TicketRepository {
     private val ticketDataSource = TicketDataSource()
 
-    fun retrieveAll() : Flow<ApiResult<List<Ticket>>> {
+    fun retrieveAll(): Flow<ApiResult<List<Ticket>>> {
         return flow {
-            while(true) {
+            while (true) {
                 emit(ApiResult.Loading)
                 try {
                     emit(ApiResult.Success(ticketDataSource.retrieveAll()))
-                } catch (ex:Exception) {
+                } catch (ex: Exception) {
                     emit(ApiResult.Error(ex))
                 }
                 delay(Constants.RefreshDelay.TICKET_DELAY)
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    fun changeState(href:String,action:String): Flow<ApiResult<Ticket>> {
+        return flow{
+        try {
+            emit(ApiResult.Success(ticketDataSource.changeState(href,action)))
+        } catch (ex: Exception) {
+            emit(ApiResult.Error(ex))
+        }
+    }.flowOn(Dispatchers.IO)
+}
 
 }
