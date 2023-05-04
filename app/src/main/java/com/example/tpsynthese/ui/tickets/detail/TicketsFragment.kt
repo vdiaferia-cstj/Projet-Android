@@ -10,10 +10,14 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.tpsynthese.domain.models.Gateway
+import com.github.kittinunf.fuel.json.jsonDeserializer
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private val args: TicketsFragmentArgs by navArgs()
@@ -34,7 +38,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
         viewModel.ticketUiState.onEach {
 
             when (it) {
-                TicketsUiState.Empty -> TODO()
+                TicketsUiState.Empty -> Unit
                 is TicketsUiState.Error -> {
                     Toast.makeText(
                         requireContext(),
@@ -44,7 +48,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     requireActivity().supportFragmentManager.popBackStack()
                 }
 
-                is TicketsUiState.Solved -> TODO()
+                is TicketsUiState.Solved -> Unit
                 is TicketsUiState.Success -> {
                     binding.incTicketCard.txvTicket.text = it.ticket.ticketNumber.toString()
                     binding.incTicketCard.txvDate.text = it.ticket.createdDate.toString()
@@ -63,7 +67,8 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
         when (qrResult) {
             is QRResult.QRSuccess -> {
                //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
-                viewModel.installGateway(qrResult.content.rawValue)
+                val jsonGateway = Json.decodeFromString<Gateway>(qrResult.content.rawValue)
+                viewModel.installGateway(jsonGateway)
             }
             QRResult.QRUserCanceled -> TODO()
             QRResult.QRMissingPermission -> TODO()

@@ -8,34 +8,33 @@ import androidx.lifecycle.viewModelScope
 import com.example.tpsynthese.core.ApiResult
 import com.example.tpsynthese.data.repositories.CustomerRepository
 import com.example.tpsynthese.domain.models.Gateway
+import com.github.kittinunf.fuel.json.jsonDeserializer
+import io.github.g00fy2.quickie.QRResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
 
-class TicketsViewModel(private val href : String) : ViewModel() {
+
+class TicketsViewModel (private val href : String) : ViewModel() {
     private val customerRepository = CustomerRepository()
     private val _ticketUiState = MutableStateFlow<TicketsUiState>(TicketsUiState.Empty)
     val ticketUiState = _ticketUiState.asStateFlow()
 
-    fun installGateway(rawValue: String) {
+    fun installGateway(jsonGateway: Gateway) {
         viewModelScope.launch {
             //TODO: Créer un gateway a partir de rawValue
             //  val checkIn = CheckIn(rawValue, Constants.DOOR)
+            val href = href;
 
-            val gateway = Gateway() //TODO
-            customerRepository.install(href, gateway).collect{apiResult ->
-                _ticketUiState.update {
-                    when(apiResult){
-                        is ApiResult.Error -> TicketsUiState.Error(apiResult.exception)
-                        ApiResult.Loading -> TicketsUiState.Empty
-                        is ApiResult.Success -> TicketsUiState.Success(apiResult.data)
-                    }
-                }
+            customerRepository.install(href, jsonGateway)
             }
         }
-    }
+   
 
 
     class Factory(private val href:String):  ViewModelProvider.Factory{

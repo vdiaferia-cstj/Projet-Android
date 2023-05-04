@@ -28,7 +28,10 @@ object Constants {
     }
 
     object RefreshDelay {
+        const val TICKET_DELAY:Long = 30 * 1000L
         const val LOADING_DELAY: Long = 10000L
     }
+
+
 
 }
