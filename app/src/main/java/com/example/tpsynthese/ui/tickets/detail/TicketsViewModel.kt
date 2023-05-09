@@ -46,6 +46,7 @@ class TicketsViewModel (private val href : String) : ViewModel() {
                     }
                 }
             }
+
         }
     }
 
