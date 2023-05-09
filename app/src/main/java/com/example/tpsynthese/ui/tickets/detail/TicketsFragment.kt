@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.tpsynthese.core.Constants
 import com.example.tpsynthese.data.datasource.TicketDataSource
 import com.example.tpsynthese.data.repositories.TicketRepository
+import com.example.tpsynthese.domain.models.Customer
 import com.example.tpsynthese.domain.models.Gateway
 import com.example.tpsynthese.domain.models.Ticket
 import com.github.kittinunf.fuel.json.jsonDeserializer
