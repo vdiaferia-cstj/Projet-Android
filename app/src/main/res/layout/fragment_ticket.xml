@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/incTicket"
+        android:id="@+id/incTicketCard"
         layout="@layout/ticket_card"
         android:layout_width="374dp"
         android:layout_height="71dp"
@@ -16,14 +16,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/incTicket"
+        android:id="@+id/incTicketInfo"
         layout="@layout/ticket_body"
-        android:layout_width="384dp"
-        android:layout_height="485dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/incTicket" />
+        android:layout_width="381dp"
+        android:layout_height="414dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/incTicketCard"
+        tools:layout_editor_absoluteX="14dp" />
 
     <Button
         android:id="@+id/btnInstall"
@@ -31,19 +30,49 @@
         android:layout_height="wrap_content"
         android:text="Install"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSolve"
+        app:layout_constraintEnd_toStartOf="@+id/btnOpen"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incTicketInfo"
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/btnSolve"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
         android:text="Solve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnInstall" />
+        app:layout_constraintStart_toEndOf="@+id/btnOpen"
+        app:layout_constraintTop_toBottomOf="@+id/incTicketInfo"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/btnOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSolve"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnInstall"
+        app:layout_constraintTop_toBottomOf="@+id/incTicketInfo"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/pgbLoading"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:indeterminateTint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

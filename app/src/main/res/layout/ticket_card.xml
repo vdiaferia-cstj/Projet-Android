@@ -17,7 +17,7 @@
             android:layout_width="100dp"
             android:layout_height="35dp"
             android:layout_marginEnd="8dp"
-            android:text="test"
+            tools:text="test"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/chipPriority" />
@@ -26,27 +26,29 @@
             android:id="@+id/txvTicket"
             android:layout_width="257dp"
             android:layout_height="25dp"
-            android:text="TICKET 12345"
+            android:layout_marginStart="16dp"
             app:layout_constraintBottom_toTopOf="@+id/txvDate"
             app:layout_constraintEnd_toEndOf="@+id/txvDate"
-            app:layout_constraintStart_toStartOf="@+id/txvDate"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="TICKET 12345"></TextView>
 
         <TextView
             android:id="@+id/txvDate"
             android:layout_width="255dp"
             android:layout_height="21dp"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_editor_absoluteX="24dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="TextView" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipPriority"
             android:layout_width="100dp"
             android:layout_height="35dp"
             android:layout_marginEnd="8dp"
-            android:text="test"
+            tools:text="test"
             app:layout_constraintBottom_toTopOf="@+id/chipStatus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
