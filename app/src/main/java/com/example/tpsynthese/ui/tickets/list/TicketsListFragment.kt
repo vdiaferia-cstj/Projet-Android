@@ -56,7 +56,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_list_tickets) {
 
 
     private fun onRecyclerViewTicketClick(ticket:Ticket) {
-        val action = TicketsListFragmentDirections.actionNavListTicketsToTicketFragment(ticket.href)
+        val action = TicketsListFragmentDirections.actionNavListTicketsToTicketFragment(ticket.customer.href)
         findNavController().navigate(action)
     }
 }

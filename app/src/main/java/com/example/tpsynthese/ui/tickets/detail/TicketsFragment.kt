@@ -30,7 +30,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private val viewModel: TicketsViewModel by viewModels(){
         TicketsViewModel.Factory(args.href)
     }
-
+    private lateinit var customer : Customer
     private val scanQRCode = registerForActivityResult(ScanQRCode(), ::handleQuickieResult)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +56,6 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
         }
 
         viewModel.ticketUiState.onEach {
-
             when (it) {
                 TicketsUiState.Empty -> Unit
                 is TicketsUiState.Error -> {
@@ -74,9 +73,12 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     binding.incTicketCard.txvDate.text = it.ticket.createdDate.toString()
                     //binding.incTicketCard.chipPriority.chipBackgroundColor = it.ticket.
                     //Besoin de changer la couleur des chips binding.incTicketCard.chipPriority
-
                     //Add contry flag Glide.with(this).load(it.ticket.)
+                }
 
+                is TicketsUiState.CustomerError -> TODO()
+                is TicketsUiState.CustomerSuccess -> {
+                 customer = it.customer
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
