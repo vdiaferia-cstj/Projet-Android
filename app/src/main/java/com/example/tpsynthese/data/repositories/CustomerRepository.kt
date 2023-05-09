@@ -19,8 +19,8 @@ class CustomerRepository {
             emit(ApiResult.Loading)
             try {
 
-                val allo = ApiResult.Success(customerDataSource.retrieveOne(href))
-                emit(allo)
+                emit(ApiResult.Success(customerDataSource.retrieveOne(href)))
+
             } catch (ex: Exception) {
                 emit(ApiResult.Error(ex))
             }
