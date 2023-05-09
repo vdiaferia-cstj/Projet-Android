@@ -17,6 +17,7 @@ import com.example.tpsynthese.data.repositories.TicketRepository
 import com.example.tpsynthese.domain.models.Customer
 import com.example.tpsynthese.domain.models.Gateway
 import com.example.tpsynthese.domain.models.Ticket
+import com.example.tpsynthese.ui.tickets.list.TicketsListUiState
 import com.github.kittinunf.fuel.json.jsonDeserializer
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
@@ -67,11 +68,16 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     ).show()
                     requireActivity().supportFragmentManager.popBackStack()
                 }
+                is TicketsUiState.Loading -> {
+                    binding.pgbLoading.show()
+                }
 
                 is TicketsUiState.Solved -> Unit
                 is TicketsUiState.Success -> {
-                    binding.incTicketCard.txvTicket.text = it.ticket.ticketNumber.toString()
-                    binding.incTicketCard.txvDate.text = it.ticket.createdDate.toString()
+                    binding.pgbLoading.visibility = View.GONE
+                    binding.incTicketCard.txvTicket.text = buildString { append("Ticket: ")
+                        append(it.ticket.ticketNumber) }
+                    binding.incTicketCard.txvDate.text = it.ticket.createdDate
                     //binding.incTicketCard.chipPriority.chipBackgroundColor = it.ticket.
                     //Besoin de changer la couleur des chips binding.incTicketCard.chipPriority
                     //Add contry flag Glide.with(this).load(it.ticket.)
@@ -80,7 +86,11 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
                  customer = it.customer
-                    binding.incTicketInfo.txvName.text = customer.firstName
+                    binding.incTicketInfo.txvName.text = buildString { append(customer.firstName)
+                        append(" ")
+                        append(customer.lastName) }
+                    binding.incTicketInfo.txvAdresse.text = customer.address
+                    binding.incTicketInfo.txvVille.text = customer.city
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -89,6 +99,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private fun changeState(href:String,state: String){
         viewModel.changeState(href,state)
     }
+
 
     private fun handleQuickieResult(qrResult: QRResult) {
 
