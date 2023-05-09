@@ -98,9 +98,9 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                 val jsonGateway = Json.decodeFromString<Gateway>(qrResult.content.rawValue)
                 viewModel.installGateway(jsonGateway)
             }
-            QRResult.QRUserCanceled -> TODO()
-            QRResult.QRMissingPermission -> TODO()
-            is QRResult.QRError -> TODO()
+            QRResult.QRUserCanceled -> Toast.makeText(requireContext(), getString(R.string.qr_code_canceled) , Toast.LENGTH_SHORT).show()
+            QRResult.QRMissingPermission -> Toast.makeText(requireContext(), getString(R.string.qr_code_missing_permission) , Toast.LENGTH_SHORT).show()
+            is QRResult.QRError -> Toast.makeText(requireContext(), getString(R.string.qr_code_error) , Toast.LENGTH_SHORT).show()
         }
 
     }

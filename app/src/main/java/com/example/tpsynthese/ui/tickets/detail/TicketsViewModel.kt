@@ -31,6 +31,7 @@ class TicketsViewModel (private val href : String) : ViewModel() {
     private val ticketRepository = TicketRepository()
     private val _ticketUiState = MutableStateFlow<TicketsUiState>(TicketsUiState.Empty)
     val ticketUiState = _ticketUiState.asStateFlow()
+    private lateinit var hrefCustomer: String
 
 
 
@@ -43,6 +44,7 @@ class TicketsViewModel (private val href : String) : ViewModel() {
                         //  is ApiResult.Success -> TicketsUiState.Success(apiResult.data)
                        is ApiResult.Success -> {
                             getCustomer(apiResult.data.customer.href)
+                           hrefCustomer = apiResult.data.customer.href
                            TicketsUiState.Success(apiResult.data)
                         }
 
@@ -73,11 +75,7 @@ class TicketsViewModel (private val href : String) : ViewModel() {
 
     fun installGateway(jsonGateway: Gateway) {
         viewModelScope.launch {
-
-            //TODO: Créer un gateway a partir de rawValue
-            //  val checkIn = CheckIn(rawValue, Constants.DOOR)
-
-            customerRepository.install(href, jsonGateway)
+            customerRepository.install(hrefCustomer, jsonGateway)
             }
         }
 
