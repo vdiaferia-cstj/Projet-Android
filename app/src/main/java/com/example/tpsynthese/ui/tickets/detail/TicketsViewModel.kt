@@ -37,9 +37,30 @@ class TicketsViewModel (private val href : String) : ViewModel() {
 
     init {
         viewModelScope.launch {
+            ticketRepository.retrieveOne(href).collect() { apiResult ->
+                _ticketUiState.update {
+                    when (apiResult) {
+                        //  is ApiResult.Success -> TicketsUiState.Success(apiResult.data)
+                       is ApiResult.Success -> {
+                            getCustomer(apiResult.data.customer.href)
+                           TicketsUiState.Success(apiResult.data)
+                        }
+
+                        ApiResult.Loading -> TicketsUiState.Empty
+
+                        is ApiResult.Error -> TODO()
+                    }
+                }
+            }
+        }
+    }
+
+    fun getCustomer(href: String){
+        viewModelScope.launch {
             customerRepository.retrieveOne(href).collect() { apiResult ->
                 _ticketUiState.update {
                     when (apiResult) {
+                        //  is ApiResult.Success -> TicketsUiState.Success(apiResult.data)
                         is ApiResult.Error -> TicketsUiState.CustomerError(apiResult.exception as Exception)
                         is ApiResult.Success -> TicketsUiState.CustomerSuccess(apiResult.data)
                         ApiResult.Loading -> TicketsUiState.Empty
@@ -49,7 +70,6 @@ class TicketsViewModel (private val href : String) : ViewModel() {
 
         }
     }
-
 
     fun installGateway(jsonGateway: Gateway) {
         viewModelScope.launch {

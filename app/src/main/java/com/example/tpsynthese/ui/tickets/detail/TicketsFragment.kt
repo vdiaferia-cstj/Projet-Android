@@ -80,6 +80,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
                  customer = it.customer
+                    binding.incTicketInfo.txvName.text = customer.firstName
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
