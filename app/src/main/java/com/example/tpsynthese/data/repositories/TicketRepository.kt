@@ -27,6 +27,20 @@ class TicketRepository {
         }.flowOn(Dispatchers.IO)
     }
 
+    fun retrieveOne(href : String): Flow<ApiResult<Ticket>> {
+        return flow {
+            while (true) {
+                emit(ApiResult.Loading)
+                try {
+                    emit(ApiResult.Success(ticketDataSource.retrieveOne(href)))
+                } catch (ex: Exception) {
+                    emit(ApiResult.Error(ex))
+                }
+                delay(Constants.RefreshDelay.TICKET_DELAY)
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     fun changeState(href:String,action:String): Flow<ApiResult<Ticket>> {
         return flow{
         try {
