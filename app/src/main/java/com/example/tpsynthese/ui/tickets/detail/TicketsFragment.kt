@@ -11,6 +11,7 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.tpsynthese.core.ColorHelper
 import com.example.tpsynthese.core.Constants
 import com.example.tpsynthese.data.datasource.TicketDataSource
 import com.example.tpsynthese.data.repositories.TicketRepository
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import com.bumptech.glide.Glide
 
 class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private val args: TicketsFragmentArgs by navArgs()
@@ -78,9 +80,12 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     binding.incTicketCard.txvTicket.text = buildString { append("Ticket: ")
                         append(it.ticket.ticketNumber) }
                     binding.incTicketCard.txvDate.text = it.ticket.createdDate
-                    //binding.incTicketCard.chipPriority.chipBackgroundColor = it.ticket.
-                    //Besoin de changer la couleur des chips binding.incTicketCard.chipPriority
-                    //Add contry flag Glide.with(this).load(it.ticket.)
+                    binding.incTicketCard.chipStatus.text = it.ticket.status
+                    binding.incTicketCard.chipPriority.text = it.ticket.priority
+                    binding.incTicketCard.chipStatus.chipBackgroundColor = ColorHelper.ticketStatusColor(binding.root.context,it.ticket.status)
+                    binding.incTicketCard.chipPriority.chipBackgroundColor = ColorHelper.ticketPriorityColor(binding.root.context,it.ticket.priority)
+                    Glide.with(binding.incTicketInfo.imgViewDrapeau).load(it.ticket.customer.country).into(binding.incTicketInfo.imgViewDrapeau)
+
                 }
 
                 is TicketsUiState.CustomerError -> TODO()
