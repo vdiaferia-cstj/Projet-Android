@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 data class Network(
     val nextReboot:String,
     val updateDate:String,
-    val networkNode: NetworkNode
+    val nodes: List<NetworkNode>
 )

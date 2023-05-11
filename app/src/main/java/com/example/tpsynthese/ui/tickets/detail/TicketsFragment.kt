@@ -85,7 +85,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     binding.incTicketCard.chipStatus.chipBackgroundColor = ColorHelper.ticketStatusColor(binding.root.context,it.ticket.status)
                     binding.incTicketCard.chipPriority.chipBackgroundColor = ColorHelper.ticketPriorityColor(binding.root.context,it.ticket.priority)
                     Glide.with(binding.incTicketInfo.imgViewDrapeau).load(it.ticket.customer.country).into(binding.incTicketInfo.imgViewDrapeau)
-
+                    //binding.incTicketInfo.rcvGateway = it.ticket.customer.
                 }
 
                 is TicketsUiState.CustomerError -> TODO()
