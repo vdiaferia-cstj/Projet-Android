@@ -51,7 +51,7 @@
         app:srcCompat="@drawable/cad" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvRouteur"
+        android:id="@+id/rcvGateway"
         android:layout_width="374dp"
         android:layout_height="205dp"
         android:layout_marginTop="8dp"

@@ -12,4 +12,5 @@
     <string name="qr_code_error">Error scanning the QR code</string>
     <string name="gateway_error">Error trying to install the gateway</string>
     <string name="gateway_success">Gateway %s has been installed</string>
+    <string name="title_activity_maps">activity_maps</string>
 </resources>

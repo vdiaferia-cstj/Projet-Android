@@ -50,7 +50,7 @@ class TicketsViewModel (private val href : String) : ViewModel() {
 
                         ApiResult.Loading -> TicketsUiState.Empty
 
-                        is ApiResult.Error -> TODO()
+                        is ApiResult.Error -> TicketsUiState.Error(apiResult.exception)
                     }
                 }
             }
