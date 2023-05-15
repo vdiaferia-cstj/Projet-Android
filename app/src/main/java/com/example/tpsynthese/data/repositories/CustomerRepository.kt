@@ -28,11 +28,15 @@ class CustomerRepository {
     }
 
 
-    fun install( href: String, gateway: Gateway) {
+    fun install( href: String, gateway: Gateway) : Flow<ApiResult<Gateway>> {
+        return flow {
+            emit(ApiResult.Loading)
             try {
-               ApiResult.Success(customerDataSource.install(href, gateway))
+                emit(ApiResult.Success(customerDataSource.install(href, gateway)))
             } catch (ex: Exception){
-                ApiResult.Error(ex)
+                emit(ApiResult.Error(ex))
             }
+        }.flowOn(Dispatchers.IO)
+
     }
 }

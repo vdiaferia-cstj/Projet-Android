@@ -11,5 +11,7 @@ sealed class TicketsUiState {
     class Solved(val ticket: Ticket):TicketsUiState()
     class CustomerSuccess(val customer: Customer): TicketsUiState()
     class CustomerError(val exception: Exception) : TicketsUiState()
+    class GatewaySuccess(val gateway: Gateway) : TicketsUiState()
+    class GatewayError(val exception: Exception) : TicketsUiState()
     object Empty: TicketsUiState()
 }

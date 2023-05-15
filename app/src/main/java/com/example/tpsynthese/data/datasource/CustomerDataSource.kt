@@ -43,7 +43,7 @@ class CustomerDataSource : JsonDataSource() {
         val (_,_, result) = hrefPOST.httpPost().jsonBody(body).responseJson()
         //Gérer la réponse
         return when(result){
-            is Result.Success -> json.decodeFromString(result.value.content)
+            is Result.Success -> gateway
             is Result.Failure -> throw result.error.exception
         }
     }

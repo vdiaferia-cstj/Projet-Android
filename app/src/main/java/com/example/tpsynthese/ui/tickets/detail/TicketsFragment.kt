@@ -76,11 +76,16 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     //Besoin de changer la couleur des chips binding.incTicketCard.chipPriority
                     //Add contry flag Glide.with(this).load(it.ticket.)
                 }
-
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
                  customer = it.customer
                     binding.incTicketInfo.txvName.text = customer.firstName
+                }
+                is TicketsUiState.GatewayError -> {
+                    Toast.makeText(requireContext(),    getString(R.string.gateway_error)  , Toast.LENGTH_SHORT).show()
+                }
+                is TicketsUiState.GatewaySuccess -> {
+                    Toast.makeText(requireContext(), getString(R.string.gateway_success, it.gateway.serialNumber) , Toast.LENGTH_SHORT).show()
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -97,6 +102,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
                 val jsonGateway = Json.decodeFromString<Gateway>(qrResult.content.rawValue)
                 viewModel.installGateway(jsonGateway)
+
             }
             QRResult.QRUserCanceled -> Toast.makeText(requireContext(), getString(R.string.qr_code_canceled) , Toast.LENGTH_SHORT).show()
             QRResult.QRMissingPermission -> Toast.makeText(requireContext(), getString(R.string.qr_code_missing_permission) , Toast.LENGTH_SHORT).show()

@@ -75,7 +75,15 @@ class TicketsViewModel (private val href : String) : ViewModel() {
 
     fun installGateway(jsonGateway: Gateway) {
         viewModelScope.launch {
-            customerRepository.install(hrefCustomer, jsonGateway)
+            customerRepository.install(hrefCustomer, jsonGateway).collect() { apiResult ->
+                _ticketUiState.update {
+                    when (apiResult) {
+                        is ApiResult.Error -> TicketsUiState.GatewayError(apiResult.exception)
+                        ApiResult.Loading -> TicketsUiState.Empty
+                        is ApiResult.Success -> TicketsUiState.GatewaySuccess(apiResult.data)
+                    }
+                }
+            }
             }
         }
 
