@@ -22,6 +22,9 @@
         <argument
             android:name="href"
             app:argType="string" />
+        <action
+            android:id="@+id/action_ticketFragment_to_mapsActivity"
+            app:destination="@id/mapsActivity" />
     </fragment>
 
 
@@ -49,4 +52,13 @@
             android:id="@+id/action_nav_List_gateways_to_nav_gateways"
             app:destination="@id/gatewayFragment" />
     </fragment>
+    <activity
+        android:id="@+id/mapsActivity"
+        android:name="com.example.tpsynthese.ui.map.MapsActivity"
+        android:label="MapsActivity"
+        tools:layout="@layout/activity_maps">
+
+        <argument android:name="position"
+            app:argType="com.google.android.gms.maps.model.LatLng" />
+    </activity>
 </navigation>
