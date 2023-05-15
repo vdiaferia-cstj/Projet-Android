@@ -11,12 +11,14 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.tpsynthese.core.ColorHelper
 import com.example.tpsynthese.core.Constants
 import com.example.tpsynthese.data.datasource.TicketDataSource
 import com.example.tpsynthese.data.repositories.TicketRepository
 import com.example.tpsynthese.domain.models.Customer
 import com.example.tpsynthese.domain.models.Gateway
 import com.example.tpsynthese.domain.models.Ticket
+import com.example.tpsynthese.ui.tickets.list.TicketsListUiState
 import com.github.kittinunf.fuel.json.jsonDeserializer
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
@@ -24,6 +26,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import com.bumptech.glide.Glide
 
 class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private val args: TicketsFragmentArgs by navArgs()
@@ -67,20 +70,32 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     ).show()
                     requireActivity().supportFragmentManager.popBackStack()
                 }
+                is TicketsUiState.Loading -> {
+                    binding.pgbLoading.show()
+                }
 
                 is TicketsUiState.Solved -> Unit
                 is TicketsUiState.Success -> {
-                    binding.incTicketCard.txvTicket.text = it.ticket.ticketNumber.toString()
-                    binding.incTicketCard.txvDate.text = it.ticket.createdDate.toString()
-                    //binding.incTicketCard.chipPriority.chipBackgroundColor = it.ticket.
-                    //Besoin de changer la couleur des chips binding.incTicketCard.chipPriority
-                    //Add contry flag Glide.with(this).load(it.ticket.)
+                    binding.pgbLoading.visibility = View.GONE
+                    binding.incTicketCard.txvTicket.text = buildString { append("Ticket: ")
+                        append(it.ticket.ticketNumber) }
+                    binding.incTicketCard.txvDate.text = it.ticket.createdDate
+                    binding.incTicketCard.chipStatus.text = it.ticket.status
+                    binding.incTicketCard.chipPriority.text = it.ticket.priority
+                    binding.incTicketCard.chipStatus.chipBackgroundColor = ColorHelper.ticketStatusColor(binding.root.context,it.ticket.status)
+                    binding.incTicketCard.chipPriority.chipBackgroundColor = ColorHelper.ticketPriorityColor(binding.root.context,it.ticket.priority)
+                    Glide.with(binding.incTicketInfo.imgViewDrapeau).load(it.ticket.customer.country).into(binding.incTicketInfo.imgViewDrapeau)
+                    //binding.incTicketInfo.rcvGateway = it.ticket.customer.
                 }
 
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
                  customer = it.customer
-                    binding.incTicketInfo.txvName.text = customer.firstName
+                    binding.incTicketInfo.txvName.text = buildString { append(customer.firstName)
+                        append(" ")
+                        append(customer.lastName) }
+                    binding.incTicketInfo.txvAdresse.text = customer.address
+                    binding.incTicketInfo.txvVille.text = customer.city
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -89,6 +104,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private fun changeState(href:String,state: String){
         viewModel.changeState(href,state)
     }
+
 
     private fun handleQuickieResult(qrResult: QRResult) {
 
