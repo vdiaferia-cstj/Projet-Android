@@ -41,7 +41,6 @@ class TicketsViewModel (private val href : String) : ViewModel() {
             ticketRepository.retrieveOne(href).collect() { apiResult ->
                 _ticketUiState.update {
                     when (apiResult) {
-                        //  is ApiResult.Success -> TicketsUiState.Success(apiResult.data)
                        is ApiResult.Success -> {
                             getCustomer(apiResult.data.customer.href)
                            hrefCustomer = apiResult.data.customer.href
@@ -88,7 +87,6 @@ class TicketsViewModel (private val href : String) : ViewModel() {
         }
 
     fun changeState(href:String,action:String) {
-        //val href = href;
         ticketRepository.changeState(href,action)
      }
    
