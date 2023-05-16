@@ -9,7 +9,7 @@
     app:cardElevation="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="198dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.chip.Chip
@@ -88,15 +88,16 @@
             android:id="@+id/imvUpload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/txvSerial"
             app:layout_constraintEnd_toStartOf="@+id/txvUpload"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_outline_cloud_upload_24"
-            tools:layout_editor_absoluteY="98dp" />
+            app:layout_constraintTop_toBottomOf="@+id/imvDownload"
+            app:srcCompat="@drawable/ic_outline_cloud_upload_24" />
 
         <TextView
-            android:id="@+id/txtSerial"
+            android:id="@+id/txvSerial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
