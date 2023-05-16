@@ -99,12 +99,17 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     Glide.with(binding.incTicketInfo.imgViewDrapeau).load(it.ticket.customer.country).into(binding.incTicketInfo.imgViewDrapeau)
                     //binding.incTicketInfo.rcvGateway = it.ticket.customer.
                 }
-
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
                  customer = it.customer
                     binding.incTicketInfo.txvName.text = customer.firstName
                     position = LatLng(customer.coord.latitude.toDouble(),customer.coord.longitude.toDouble())
+                }
+                is TicketsUiState.GatewayError -> {
+                    Toast.makeText(requireContext(),    getString(R.string.gateway_error)  , Toast.LENGTH_SHORT).show()
+                }
+                is TicketsUiState.GatewaySuccess -> {
+                    Toast.makeText(requireContext(), getString(R.string.gateway_success, it.gateway.serialNumber) , Toast.LENGTH_SHORT).show()
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -122,10 +127,11 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
                 val jsonGateway = Json.decodeFromString<Gateway>(qrResult.content.rawValue)
                 viewModel.installGateway(jsonGateway)
+
             }
-            QRResult.QRUserCanceled -> TODO()
-            QRResult.QRMissingPermission -> TODO()
-            is QRResult.QRError -> TODO()
+            QRResult.QRUserCanceled -> Toast.makeText(requireContext(), getString(R.string.qr_code_canceled) , Toast.LENGTH_SHORT).show()
+            QRResult.QRMissingPermission -> Toast.makeText(requireContext(), getString(R.string.qr_code_missing_permission) , Toast.LENGTH_SHORT).show()
+            is QRResult.QRError -> Toast.makeText(requireContext(), getString(R.string.qr_code_error) , Toast.LENGTH_SHORT).show()
         }
 
     }

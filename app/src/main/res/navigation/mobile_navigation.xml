@@ -44,7 +44,7 @@
         android:label="@string/title_network"
         tools:layout="@layout/fragment_networks" />
     <fragment
-        android:id="@+id/nav_List_gateways"
+        android:id="@+id/nav_list_gateways"
         android:name="com.example.tpsynthese.ui.gateways.list.GatewaysListFragment"
         android:label="GatewaysListFragment"
         tools:layout="@layout/fragment_list_gateways" >
