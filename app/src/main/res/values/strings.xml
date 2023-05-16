@@ -13,4 +13,5 @@
     <string name="gateway_error">Error trying to install the gateway</string>
     <string name="gateway_success">Gateway %s has been installed</string>
     <string name="title_activity_maps">activity_maps</string>
+    <string name="title_list_gateways">Gateways</string>
 </resources>
