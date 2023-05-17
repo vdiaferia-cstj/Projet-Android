@@ -10,6 +10,7 @@ import com.example.tpsynthese.databinding.FragmentTicketBinding
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tpsynthese.core.ColorHelper
 import com.example.tpsynthese.core.Constants
@@ -18,8 +19,9 @@ import com.example.tpsynthese.data.repositories.TicketRepository
 import com.example.tpsynthese.domain.models.Customer
 import com.example.tpsynthese.domain.models.Gateway
 import com.example.tpsynthese.domain.models.Ticket
-import com.example.tpsynthese.ui.tickets.list.TicketsListUiState
+import com.example.tpsynthese.ui.tickets.list.TicketsListFragmentDirections
 import com.github.kittinunf.fuel.json.jsonDeserializer
+import com.google.android.gms.maps.model.LatLng
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
 import kotlinx.coroutines.flow.launchIn
@@ -36,6 +38,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     }
     private lateinit var customer : Customer
     private val scanQRCode = registerForActivityResult(ScanQRCode(), ::handleQuickieResult)
+    private var position : LatLng? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,8 +58,17 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
             changeState(args.href,Constants.TicketStatus.Open.toString())
         }
 
+
         binding.btnInstall.setOnClickListener {
             scanQRCode.launch(null)
+        }
+
+        binding.fabLocation.setOnClickListener {
+            if(position != null)
+            {
+                val action = TicketsFragmentDirections.actionTicketFragmentToMapsActivity(position!!)
+                findNavController().navigate(action)
+            }
         }
 
         viewModel.ticketUiState.onEach {
@@ -87,15 +99,17 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     Glide.with(binding.incTicketInfo.imgViewDrapeau).load(it.ticket.customer.country).into(binding.incTicketInfo.imgViewDrapeau)
                     //binding.incTicketInfo.rcvGateway = it.ticket.customer.
                 }
-
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
                  customer = it.customer
-                    binding.incTicketInfo.txvName.text = buildString { append(customer.firstName)
-                        append(" ")
-                        append(customer.lastName) }
-                    binding.incTicketInfo.txvAdresse.text = customer.address
-                    binding.incTicketInfo.txvVille.text = customer.city
+                    binding.incTicketInfo.txvName.text = customer.firstName
+                    position = LatLng(customer.coord.latitude.toDouble(),customer.coord.longitude.toDouble())
+                }
+                is TicketsUiState.GatewayError -> {
+                    Toast.makeText(requireContext(),    getString(R.string.gateway_error)  , Toast.LENGTH_SHORT).show()
+                }
+                is TicketsUiState.GatewaySuccess -> {
+                    Toast.makeText(requireContext(), getString(R.string.gateway_success, it.gateway.serialNumber) , Toast.LENGTH_SHORT).show()
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -113,10 +127,11 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
                 val jsonGateway = Json.decodeFromString<Gateway>(qrResult.content.rawValue)
                 viewModel.installGateway(jsonGateway)
+
             }
-            QRResult.QRUserCanceled -> TODO()
-            QRResult.QRMissingPermission -> TODO()
-            is QRResult.QRError -> TODO()
+            QRResult.QRUserCanceled -> Toast.makeText(requireContext(), getString(R.string.qr_code_canceled) , Toast.LENGTH_SHORT).show()
+            QRResult.QRMissingPermission -> Toast.makeText(requireContext(), getString(R.string.qr_code_missing_permission) , Toast.LENGTH_SHORT).show()
+            is QRResult.QRError -> Toast.makeText(requireContext(), getString(R.string.qr_code_error) , Toast.LENGTH_SHORT).show()
         }
 
     }
