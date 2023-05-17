@@ -19,8 +19,8 @@ class GatewayDataSource : JsonDataSource(){
         }
     }
 
-    fun retrieveOne(href: String): Gateway {
-        val (_, _ , result) = href.httpGet().responseJson()
+    fun retrieveFromCustomer(href: String): List<Gateway> {
+        val (_, _ , result) = Constants.BaseURL.GATEWAY_CUSTOMER.format(href).httpGet().responseJson()
 
         return when(result) {
             is Result.Success -> json.decodeFromString(result.value.content)
