@@ -4,6 +4,7 @@ import com.example.tpsynthese.core.ApiResult
 import com.example.tpsynthese.core.Constants
 import com.example.tpsynthese.data.datasource.GatewayDataSource
 import com.example.tpsynthese.data.datasource.TicketDataSource
+import com.example.tpsynthese.domain.models.Customer
 import com.example.tpsynthese.domain.models.Gateway
 import com.example.tpsynthese.domain.models.Ticket
 import com.google.android.gms.common.api.Api
@@ -16,6 +17,19 @@ import kotlinx.coroutines.flow.flowOn
 class GatewayRepository {
 
     private val gatewayDataSource = GatewayDataSource()
+
+    fun retrieveOne(href:String) : Flow<ApiResult<Gateway>> {
+        return flow {
+            emit(ApiResult.Loading)
+            try {
+
+                emit(ApiResult.Success(gatewayDataSource.retrieveOne(href)))
+
+            } catch (ex: java.lang.Exception) {
+                emit(ApiResult.Error(ex))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 
     fun retrieveAll(): Flow<ApiResult<List<Gateway>>> {
         return flow {
