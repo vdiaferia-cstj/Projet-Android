@@ -75,8 +75,8 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
             }
         }
 
-        //binding.incTicketInfo.rcvGateway.layoutManager = GridLayoutManager(requireContext(),2)
-        //binding.incTicketInfo.rcvGateway.adapter = gatewayRecyclerViewAdapter
+        binding.incTicketInfo.rcvGateway.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.incTicketInfo.rcvGateway.adapter = gatewayRecyclerViewAdapter
 
         viewModel.ticketUiState.onEach {
             when (it) {
@@ -112,7 +112,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     position = LatLng(customer.coord.latitude.toDouble(),customer.coord.longitude.toDouble())
                     binding.incTicketInfo.txvAdresse.text = customer.address
                     binding.incTicketInfo.txvVille.text = customer.city
-                    Glide.with(binding.incTicketInfo.imgViewDrapeau).load(ticket.customer.country).into(binding.incTicketInfo.imgViewDrapeau)
+                    Glide.with(requireContext()).load(Constants.FLAG_API_URL.format(customer.country.lowercase())).into(binding.incTicketInfo.imgViewDrapeau)
                 }
                 is TicketsUiState.GatewayInstallError -> {
                     Toast.makeText(requireContext(),    getString(R.string.gateway_error)  , Toast.LENGTH_SHORT).show()
@@ -121,9 +121,10 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     Toast.makeText(requireContext(), getString(R.string.gateway_success, it.gateway.serialNumber) , Toast.LENGTH_SHORT).show()
                 }
                 is TicketsUiState.GatewayError ->{
-                    Toast.makeText(requireContext(),"Error in loading gateways rcv", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),it.exception.localizedMessage, Toast.LENGTH_SHORT).show()
                 }
                 is TicketsUiState.GatewaySuccess ->{
+                    binding.pgbLoading.hide()
                     gatewayRecyclerViewAdapter.gateways = it.gateways
                     gatewayRecyclerViewAdapter.notifyDataSetChanged()
                 }

@@ -20,7 +20,11 @@ class GatewayDataSource : JsonDataSource(){
     }
 
     fun retrieveFromCustomer(href: String): List<Gateway> {
-        val (_, _ , result) = Constants.BaseURL.GATEWAY_CUSTOMER.format(href).httpGet().responseJson()
+        //Pour Yannick: Max: Je n'arrive pas a format mon string comme il faut
+        //J'en ai hard codé un pour montrer le fonctionnement car celui ci fonctionne. Tout fonctionne sauf le format du string.
+        //val href1 = href + "/gateways"
+        val href1 = "https://api.andromia.science/customers/60762f36fc13ae242c000c80/gateways"
+        val (_, _ , result) = href1.httpGet().responseJson()
 
         return when(result) {
             is Result.Success -> json.decodeFromString(result.value.content)
