@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tpsynthese.core.ColorHelper
 import com.example.tpsynthese.core.Constants
 import com.example.tpsynthese.data.datasource.TicketDataSource
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import com.bumptech.glide.Glide
+import com.example.tpsynthese.ui.gateways.list.GatewaysRecyclerViewAdapter
 
 class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private val args: TicketsFragmentArgs by navArgs()
@@ -37,8 +39,10 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
         TicketsViewModel.Factory(args.href)
     }
     private lateinit var customer : Customer
+    private lateinit var ticket: Ticket
     private val scanQRCode = registerForActivityResult(ScanQRCode(), ::handleQuickieResult)
     private var position : LatLng? = null
+    private val gatewayRecyclerViewAdapter = GatewaysRecyclerViewAdapter(listOf(),::onClickGateway)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,6 +75,9 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
             }
         }
 
+        binding.incTicketInfo.rcvGateway.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.incTicketInfo.rcvGateway.adapter = gatewayRecyclerViewAdapter
+
         viewModel.ticketUiState.onEach {
             when (it) {
                 TicketsUiState.Empty -> Unit
@@ -96,25 +103,38 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                     binding.incTicketCard.chipPriority.text = it.ticket.priority
                     binding.incTicketCard.chipStatus.chipBackgroundColor = ColorHelper.ticketStatusColor(binding.root.context,it.ticket.status)
                     binding.incTicketCard.chipPriority.chipBackgroundColor = ColorHelper.ticketPriorityColor(binding.root.context,it.ticket.priority)
-                    Glide.with(binding.incTicketInfo.imgViewDrapeau).load(it.ticket.customer.country).into(binding.incTicketInfo.imgViewDrapeau)
-                    //binding.incTicketInfo.rcvGateway = it.ticket.customer.
+                    ticket = it.ticket
                 }
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
                  customer = it.customer
                     binding.incTicketInfo.txvName.text = customer.firstName
                     position = LatLng(customer.coord.latitude.toDouble(),customer.coord.longitude.toDouble())
+                    binding.incTicketInfo.txvAdresse.text = customer.address
+                    binding.incTicketInfo.txvVille.text = customer.city
+                    Glide.with(requireContext()).load(Constants.FLAG_API_URL.format(customer.country.lowercase())).into(binding.incTicketInfo.imgViewDrapeau)
                 }
-                is TicketsUiState.GatewayError -> {
+                is TicketsUiState.GatewayInstallError -> {
                     Toast.makeText(requireContext(),    getString(R.string.gateway_error)  , Toast.LENGTH_SHORT).show()
                 }
-                is TicketsUiState.GatewaySuccess -> {
+                is TicketsUiState.GatewayInstallSuccess -> {
                     Toast.makeText(requireContext(), getString(R.string.gateway_success, it.gateway.serialNumber) , Toast.LENGTH_SHORT).show()
+                }
+                is TicketsUiState.GatewayError ->{
+                    Toast.makeText(requireContext(),it.exception.localizedMessage, Toast.LENGTH_SHORT).show()
+                }
+                is TicketsUiState.GatewaySuccess ->{
+                    binding.pgbLoading.hide()
+                    gatewayRecyclerViewAdapter.gateways = it.gateways
+                    gatewayRecyclerViewAdapter.notifyDataSetChanged()
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+    private fun onClickGateway(gateway: Gateway){
+
+    }
     private fun changeState(href:String,state: String){
         viewModel.changeState(href,state)
     }

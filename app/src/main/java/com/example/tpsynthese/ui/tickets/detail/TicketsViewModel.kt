@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tpsynthese.core.ApiResult
 import com.example.tpsynthese.data.repositories.CustomerRepository
+import com.example.tpsynthese.data.repositories.GatewayRepository
 import com.example.tpsynthese.data.repositories.TicketRepository
 import com.example.tpsynthese.domain.models.Gateway
 import com.example.tpsynthese.domain.models.Ticket
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
@@ -30,6 +32,7 @@ class TicketsViewModel (private val href : String) : ViewModel() {
     private val customerRepository = CustomerRepository()
     private val ticketRepository = TicketRepository()
     private val _ticketUiState = MutableStateFlow<TicketsUiState>(TicketsUiState.Empty)
+    private val gatewayRepository = GatewayRepository()
     val ticketUiState = _ticketUiState.asStateFlow()
     private lateinit var hrefCustomer: String
 
@@ -41,11 +44,10 @@ class TicketsViewModel (private val href : String) : ViewModel() {
             ticketRepository.retrieveOne(href).collect() { apiResult ->
                 _ticketUiState.update {
                     when (apiResult) {
-                        //  is ApiResult.Success -> TicketsUiState.Success(apiResult.data)
-                       is ApiResult.Success -> {
+                        is ApiResult.Success -> {
                             getCustomer(apiResult.data.customer.href)
-                           hrefCustomer = apiResult.data.customer.href
-                           TicketsUiState.Success(apiResult.data)
+                            hrefCustomer = apiResult.data.customer.href
+                            TicketsUiState.Success(apiResult.data)
                         }
 
                         ApiResult.Loading -> TicketsUiState.Empty
@@ -64,12 +66,28 @@ class TicketsViewModel (private val href : String) : ViewModel() {
                     when (apiResult) {
                         //  is ApiResult.Success -> TicketsUiState.Success(apiResult.data)
                         is ApiResult.Error -> TicketsUiState.CustomerError(apiResult.exception as Exception)
-                        is ApiResult.Success -> TicketsUiState.CustomerSuccess(apiResult.data)
+                        is ApiResult.Success ->{
+                            getGateways(apiResult.data.href)
+                            TicketsUiState.CustomerSuccess(apiResult.data)
+                        }
                         ApiResult.Loading -> TicketsUiState.Empty
                     }
                 }
             }
 
+        }
+    }
+    fun getGateways(href: String){
+        viewModelScope.launch {
+            gatewayRepository.retrieveCustomerGateways(href)?.collect { apiResult ->
+                _ticketUiState.update {
+                    when (apiResult) {
+                        ApiResult.Loading -> TicketsUiState.Loading
+                        is ApiResult.Success -> TicketsUiState.GatewaySuccess(apiResult.data)
+                        is ApiResult.Error -> TicketsUiState.GatewayError(apiResult.exception)
+                    }
+                }
+            }
         }
     }
 
@@ -78,9 +96,9 @@ class TicketsViewModel (private val href : String) : ViewModel() {
             customerRepository.install(hrefCustomer, jsonGateway).collect() { apiResult ->
                 _ticketUiState.update {
                     when (apiResult) {
-                        is ApiResult.Error -> TicketsUiState.GatewayError(apiResult.exception)
+                        is ApiResult.Error -> TicketsUiState.GatewayInstallError(apiResult.exception)
                         ApiResult.Loading -> TicketsUiState.Empty
-                        is ApiResult.Success -> TicketsUiState.GatewaySuccess(apiResult.data)
+                        is ApiResult.Success -> TicketsUiState.GatewayInstallSuccess(apiResult.data)
                     }
                 }
             }
@@ -88,7 +106,6 @@ class TicketsViewModel (private val href : String) : ViewModel() {
         }
 
     fun changeState(href:String,action:String) {
-        //val href = href;
         ticketRepository.changeState(href,action)
      }
    

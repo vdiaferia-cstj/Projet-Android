@@ -30,7 +30,6 @@ class NetworkFragment : Fragment(R.layout.fragment_networks) {
             layoutManager = GridLayoutManager(requireContext(),1)
             adapter = networkRecyclerViewAdapter
         }
-
         viewModel.networkUiState.onEach{
             when(it){
                 NetworkUiState.Empty->Unit
@@ -42,7 +41,6 @@ class NetworkFragment : Fragment(R.layout.fragment_networks) {
                     networkRecyclerViewAdapter.networks = it.networkNode
                     networkRecyclerViewAdapter.notifyDataSetChanged()
                     binding.rcvNetwork.visibility = View.VISIBLE
-                    //Hiding loading
                 }
                 NetworkUiState.Loading->Unit
             }

@@ -65,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:text="Vincent Diaferia\nJeremy Desjardins\nMaxime Blondin"
+        android:text="Vincent Diaferia\nJeremy Desjardins\nMaxym Blondin"
         android:textAlignment="center"
         android:textSize="13dp"
         app:layout_constraintBottom_toTopOf="@+id/txtNomReserve"
