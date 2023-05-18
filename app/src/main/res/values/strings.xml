@@ -7,4 +7,11 @@
     <string name="loading_msg">Loading %d/10 ...\n</string>
     <string name="ticket_msg">Ticket %s</string>
     <string name="apiErrorMessage">Error while retriving the data from the server.</string>
+    <string name="qr_code_canceled">"QR code canceled "</string>
+    <string name="qr_code_missing_permission">You\'re missing a permission to scan the QR code</string>
+    <string name="qr_code_error">Error scanning the QR code</string>
+    <string name="gateway_error">Error trying to install the gateway</string>
+    <string name="gateway_success">Gateway %s has been installed</string>
+    <string name="title_activity_maps">activity_maps</string>
+    <string name="title_list_gateways">Gateways</string>
 </resources>

@@ -1,4 +1,5 @@
 package com.example.tpsynthese.domain.models
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,5 +13,6 @@ data class Customer(
     val country:String= "",
     val postalCode:String ="",
     val phone:String ="",
-    val coordinate: Coordinate = Coordinate(0f,0f)
+    //@SerialName("coord")
+    val coord: Coordonate = Coordonate(0f,0f)
 )

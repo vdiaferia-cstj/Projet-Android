@@ -28,9 +28,6 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-
         viewModel.loadingUiState.onEach {
             when(it){
                 LoadingUiState.Empty -> Unit
