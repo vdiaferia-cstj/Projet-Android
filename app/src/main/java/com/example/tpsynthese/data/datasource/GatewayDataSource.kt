@@ -1,12 +1,17 @@
 package com.example.tpsynthese.data.datasource
 
+import com.example.tpsynthese.core.ApiResult
 import com.example.tpsynthese.core.Constants
 import com.example.tpsynthese.core.JsonDataSource
+import com.example.tpsynthese.domain.models.Customer
 import com.example.tpsynthese.domain.models.Gateway
 import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
+import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.decodeFromString
+import java.lang.Exception
 
 
 class GatewayDataSource : JsonDataSource(){
@@ -20,16 +25,44 @@ class GatewayDataSource : JsonDataSource(){
     }
 
     fun retrieveFromCustomer(href: String): List<Gateway> {
-        //Pour Yannick: Max: Je n'arrive pas a format mon string comme il faut
-        //J'en ai hard codé un pour montrer le fonctionnement car celui ci fonctionne. Tout fonctionne sauf le format du string.
-        //val href1 = href + "/gateways"
-        val href1 = "https://api.andromia.science/customers/60762f36fc13ae242c000c80/gateways"
-        val (_, _ , result) = href1.httpGet().responseJson()
+        val hrefGET = href + "/gateways"
+        val (_, _ , result) = hrefGET.httpGet().responseJson()
+
+        return when(result) {
+            is Result.Success -> json.decodeFromString(result.value.content)
+            is Result.Failure -> throw result.error.exception
+        }
+    }
+
+    fun retrieveOne(href: String): Gateway {
+        val (_, _ , result) = href.httpGet().responseJson()
 
         return when(result) {
             is Result.Success -> json.decodeFromString(result.value.content)
             is Result.Failure -> throw result.error.exception
         }
 
+    }
+
+    fun rebootGateway(href : String) : Gateway {
+        val urlServeur = "${href}/actions?type=reboot"
+        //Pas de body car aucun utilise par la route
+        val (_,_,result) = urlServeur.httpPost().responseJson()
+
+        return when(result){
+            is Result.Success -> json.decodeFromString(result.value.content)
+            is Result.Failure -> throw result.error.exception
+        }
+    }
+
+    fun updateGateway(href : String) : Gateway {
+        val urlServeur = "${href}/actions?type=update"
+        //Pas de body car aucun utilise par la route
+        val (_,_,result) = urlServeur.httpPost().responseJson()
+
+        return when(result){
+            is Result.Success -> json.decodeFromString(result.value.content)
+            is Result.Failure -> throw result.error.exception
+        }
     }
 }

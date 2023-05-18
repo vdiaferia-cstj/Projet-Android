@@ -54,6 +54,18 @@ class GatewaysFragment : Fragment(R.layout.fragment_gateway) {
                     binding.txvMac.text = it.gateway.serialNumber
                     binding.txvPin.text = it.gateway.pin
                 }
+                is GatewaysUiState.Success -> {
+                    //TODO Ajouter tes values JER
+
+                    //-Max-
+                    val idGateway = it.gateway.href
+                    binding.btnReboot.setOnClickListener {
+                        viewModel.reboot(idGateway)
+                    }
+                    binding.btnUpdate.setOnClickListener {
+                        viewModel.update(idGateway)
+                    }
+                }
             }
         }.launchIn(lifecycleScope)
     }

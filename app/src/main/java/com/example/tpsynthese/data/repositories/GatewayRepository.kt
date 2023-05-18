@@ -58,4 +58,26 @@ class GatewayRepository {
         }.flowOn(Dispatchers.IO)
     }
 
+    fun reboot(href : String) : Flow<ApiResult<Gateway>> {
+        return flow{
+            try {
+                emit(ApiResult.Success(gatewayDataSource.rebootGateway(href)))
+            }
+            catch (ex: java.lang.Exception){
+                emit(ApiResult.Error(ex))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun update(href: String): Flow<ApiResult<Gateway>>{
+        return flow{
+            try {
+                emit(ApiResult.Success(gatewayDataSource.updateGateway(href)))
+            }
+            catch (ex: java.lang.Exception){
+                emit(ApiResult.Error(ex))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 }
