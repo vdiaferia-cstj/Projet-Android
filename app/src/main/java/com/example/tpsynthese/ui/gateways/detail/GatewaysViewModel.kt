@@ -47,3 +47,25 @@ class GatewaysViewModel(private val href : String) : ViewModel() {
     }
 }
 
+
+    val text: LiveData<String> = _text
+
+    //TODO JER UTILISE CETTE FONCTION LA POUR GET TON GATEWAY
+    fun getInfoGateway(){
+        viewModelScope.launch {
+            //gatewayRepository.retrieveOne(href)?.collect{apiResult->
+
+
+            //}
+        }
+    }
+
+    fun reboot(href:String){
+        viewModelScope.launch {
+            viewModelScope.launch {
+                //gatewayRepository.reboot(href).collect{}
+                //displayGateway()
+            }
+        }
+    }
+}
