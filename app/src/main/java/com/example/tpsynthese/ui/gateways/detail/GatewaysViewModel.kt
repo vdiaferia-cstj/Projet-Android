@@ -23,6 +23,18 @@ class GatewaysViewModel(private val href : String) : ViewModel() {
 
 
     init {
+        getInfoGateway()
+    }
+
+    class Factory(private val href:String):  ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return modelClass.getConstructor(String::class.java).newInstance(href)
+        }
+    }
+    //val text: LiveData<String> = _text
+
+    //TODO JER UTILISE CETTE FONCTION LA POUR GET TON GATEWAY
+    private fun getInfoGateway(){
         viewModelScope.launch {
             gatewayRepository.retrieveOne(href).collect() { apiResult ->
                 _gatewayUiState.update {
@@ -40,32 +52,16 @@ class GatewaysViewModel(private val href : String) : ViewModel() {
         }
     }
 
-    class Factory(private val href:String):  ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.getConstructor(String::class.java).newInstance(href)
-        }
-    }
-}
-
-
-    val text: LiveData<String> = _text
-
-    //TODO JER UTILISE CETTE FONCTION LA POUR GET TON GATEWAY
-    fun getInfoGateway(){
-        viewModelScope.launch {
-            //gatewayRepository.retrieveOne(href)?.collect{apiResult->
-
-
-            //}
-        }
-    }
-
     fun reboot(href:String){
         viewModelScope.launch {
-            viewModelScope.launch {
-                //gatewayRepository.reboot(href).collect{}
-                //displayGateway()
-            }
+            gatewayRepository.reboot(href).collect{}
+            getInfoGateway()
+        }
+    }
+    fun update(href: String){
+        viewModelScope.launch {
+            gatewayRepository.update(href).collect{}
+            getInfoGateway()
         }
     }
 }

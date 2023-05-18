@@ -34,7 +34,18 @@ class GatewaysFragment : Fragment(R.layout.fragment_gateway) {
                     Toast.LENGTH_LONG
                 ).show()
                 is GatewaysUiState.Loading -> TODO()
-                is GatewaysUiState.Success ->
+                is GatewaysUiState.Success -> {
+                    //TODO Ajouter tes values JER
+
+                    //-Max-
+                    val idGateway = it.gateway.href
+                    binding.btnReboot.setOnClickListener {
+                        viewModel.reboot(idGateway)
+                    }
+                    binding.btnUpdate.setOnClickListener {
+                        viewModel.update(idGateway)
+                    }
+                }
             }
         }
     }
