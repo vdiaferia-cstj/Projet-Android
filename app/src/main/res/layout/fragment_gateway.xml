@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txvMac" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txvSSID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -61,7 +61,7 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="16dp"
         android:text="PIN: "
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/txvSSID"
         app:layout_constraintTop_toBottomOf="@+id/txvMac" />
 
     <TextView
@@ -81,7 +81,7 @@
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/txvSSID">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
