@@ -2,6 +2,7 @@ package com.example.tpsynthese.ui.loading
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -32,7 +33,8 @@ class LoadingActivity : AppCompatActivity() {
             when(it){
                 LoadingUiState.Empty -> Unit
                 LoadingUiState.Success -> {
-                   startActivity(MainActivity.newIntent(this))
+                    startActivity(MainActivity.newIntent(this))
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 }
                 is LoadingUiState.Loading -> {
                     binding.txtLoading.text = getString(R.string.loading_msg, it.secondes)

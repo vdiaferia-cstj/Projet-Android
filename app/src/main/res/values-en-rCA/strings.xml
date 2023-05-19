@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TpSynthese</string>
     <string name="title_tickets">Tickets</string>
     <string name="title_gateways">Gateways</string>
     <string name="title_network">Network</string>
     <string name="Loading_Title">Tenretni</string>
-    <string name="loading_msg">Loading %d/10 ...\n</string>
+    <string name="loading_msg">Loading %d/10 ...</string>
     <string name="ticket_msg">Ticket %s</string>
     <string name="apiErrorMessage">Error while retriving the data from the server.</string>
     <string name="qr_code_canceled">"QR code canceled "</string>
@@ -19,5 +20,4 @@
     <string name="open">Open</string>
     <string name="solve">Solve</string>
     <string name="install">Install</string>
-    <string name="elementGateway">element_%s.png</string>
 </resources>
