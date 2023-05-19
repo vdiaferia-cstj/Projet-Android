@@ -46,7 +46,7 @@ class GatewayRepository {
     }
 
     fun retrieveCustomerGateways(href : String) : Flow<ApiResult<List<Gateway>>>?{
-         //val href1 = "https://api.andromia.science/customers/60762f36fc13ae242c000c80/gateways"
+        //val href1 = "https://api.andromia.science/customers/60762f36fc13ae242c000c80/gateways"
         return flow{
             emit(ApiResult.Loading)
             try{

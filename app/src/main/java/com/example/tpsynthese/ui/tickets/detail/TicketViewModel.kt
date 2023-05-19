@@ -102,13 +102,13 @@ class TicketsViewModel (private val href : String) : ViewModel() {
                     }
                 }
             }
-            }
         }
+    }
 
     fun changeState(href:String,action:String) {
         ticketRepository.changeState(href,action)
-     }
-   
+    }
+
 
 
     class Factory(private val href:String):  ViewModelProvider.Factory{
