@@ -40,7 +40,7 @@ class GatewayRepository {
                 } catch (ex: Exception) {
                     emit(ApiResult.Error(ex))
                 }
-                delay(Constants.RefreshDelay.TICKET_DELAY)
+                delay(Constants.RefreshDelay.GATEWAYS_DELAY)
             }
         }.flowOn(Dispatchers.IO)
     }

@@ -96,7 +96,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                 is TicketsUiState.Solved -> Unit
                 is TicketsUiState.Success -> {
                     binding.pgbLoading.visibility = View.GONE
-                    binding.incTicketCard.txvTicket.text = buildString { append("Ticket: ")
+                    binding.incTicketCard.txvTicket.text = buildString { append(R.string.ticket)
                         append(it.ticket.ticketNumber) }
                     binding.incTicketCard.txvDate.text = it.ticket.createdDate
                     binding.incTicketCard.chipStatus.text = it.ticket.status

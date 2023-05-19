@@ -1,5 +1,6 @@
 package com.example.tpsynthese.ui.gateways.list
 
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +36,10 @@ class GatewaysRecyclerViewAdapter (var gateways: List<Gateway>, private val onGa
             {
                 binding.chipStatus.text = "Online"
                 binding.txvSerial.text = gateway.serialNumber
+                binding.txvNA.visibility = View.GONE
                 binding.txvNS.text = gateway.connection.ping.toString() + " ns"
-                binding.txvDownload.text = gateway.connection.download.toString()
-                binding.txvUpload.text = gateway.connection.upload.toString()
+                binding.txvDownload.text = gateway.connection.download.toString() + " Ebps"
+                binding.txvUpload.text = gateway.connection.upload.toString() + " Ebps"
                 binding.chipStatus.setChipBackgroundColorResource(R.color.gateway_status_online)
                 binding.imvUpload.setImageResource(R.drawable.ic_outline_cloud_upload_24)
                 binding.imvDownload.setImageResource(R.drawable.ic_outline_cloud_download_24)
@@ -46,6 +48,7 @@ class GatewaysRecyclerViewAdapter (var gateways: List<Gateway>, private val onGa
             if (gateway.connection.status == "Offline")
             {
                 binding.chipStatus.text = "Offline"
+                binding.txvNA.visibility = View.VISIBLE
                 binding.txvSerial.text = gateway.serialNumber
                 binding.txvNS.text = ""
                 binding.txvDownload.text = ""
