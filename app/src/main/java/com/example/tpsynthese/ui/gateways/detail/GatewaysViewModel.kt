@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tpsynthese.core.ApiResult
-import com.example.tpsynthese.data.repositories.CustomerRepository
+import com.example.tpsynthese.data.datasource.GatewayDataSource
 import com.example.tpsynthese.data.repositories.GatewayRepository
-import com.example.tpsynthese.data.repositories.TicketRepository
-import com.example.tpsynthese.ui.tickets.detail.TicketsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -32,11 +30,9 @@ class GatewaysViewModel(private val href : String) : ViewModel() {
         }
     }
     //val text: LiveData<String> = _text
-
-    //TODO JER UTILISE CETTE FONCTION LA POUR GET TON GATEWAY
     private fun getInfoGateway(){
         viewModelScope.launch {
-            gatewayRepository.retrieveOne(href).collect() { apiResult ->
+            gatewayRepository.retrieveOne(href).collect { apiResult ->
                 _gatewayUiState.update {
                     when (apiResult) {
                         is ApiResult.Success -> {

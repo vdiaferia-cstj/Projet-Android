@@ -34,9 +34,9 @@ class TicketDataSource : JsonDataSource() {
     fun changeState(href: String,action:String): Ticket{
         //Mettre en json
         //val body = json.encodeToString(href)
-        var post = href + "/action?type=" + action
+        var post = href + "/actions?type=" + action
         //Envoie au serveur avec POST
-        val(_,_,result) = post.httpPost().jsonBody(href).responseJson()
+        val(_,_,result) = post.httpPost().responseJson()
 
         //Gérer la réponse
         return when (result){

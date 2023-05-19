@@ -95,6 +95,12 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
 
                 is TicketsUiState.Solved -> Unit
                 is TicketsUiState.Success -> {
+                    if(it.ticket.status == Constants.TicketStatus.Solved.toString())
+                    {
+                        binding.btnInstall.visibility = View.GONE
+                        binding.btnSolve.visibility = View.GONE
+                        binding.btnOpen.visibility = View.VISIBLE
+                    }
                     binding.pgbLoading.visibility = View.GONE
                     binding.incTicketCard.txvTicket.text = buildString { append(R.string.ticket)
                         append(it.ticket.ticketNumber) }
@@ -107,7 +113,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
                 }
                 is TicketsUiState.CustomerError -> TODO()
                 is TicketsUiState.CustomerSuccess -> {
-                 customer = it.customer
+                    customer = it.customer
                     binding.incTicketInfo.txvName.text = customer.firstName
                     position = LatLng(customer.coord.latitude.toDouble(),customer.coord.longitude.toDouble())
                     binding.incTicketInfo.txvAdresse.text = customer.address
@@ -135,8 +141,18 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
     private fun onClickGateway(gateway: Gateway){
 
     }
-    private fun changeState(href:String,state: String){
-        viewModel.changeState(href,state)
+    private fun changeState(href:String,state: String)
+    {
+        var etat = ""
+        if(state == Constants.TicketStatus.Solved.toString())
+        {
+            etat = "solve"
+        }
+        else
+        {
+            etat = Constants.TicketStatus.Open.toString()
+        }
+        viewModel.changeState(href,etat)
     }
 
 
@@ -144,7 +160,7 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
 
         when (qrResult) {
             is QRResult.QRSuccess -> {
-               //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
+                //TODO: Une mise à jour de la liste de l’affichage des bornes du client est nécessaire après une installation
                 val jsonGateway = Json.decodeFromString<Gateway>(qrResult.content.rawValue)
                 viewModel.installGateway(jsonGateway)
 
