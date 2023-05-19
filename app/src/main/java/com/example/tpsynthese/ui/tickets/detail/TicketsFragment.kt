@@ -75,8 +75,8 @@ class TicketsFragment : Fragment(R.layout.fragment_ticket) {
             }
         }
 
-        binding.incTicketInfo.rcvGateway.layoutManager = GridLayoutManager(requireContext(),2)
-        binding.incTicketInfo.rcvGateway.adapter = gatewayRecyclerViewAdapter
+        binding.rcvGateway.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.rcvGateway.adapter = gatewayRecyclerViewAdapter
 
         viewModel.ticketUiState.onEach {
             when (it) {
