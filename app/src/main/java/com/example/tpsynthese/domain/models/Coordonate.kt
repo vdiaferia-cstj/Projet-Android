@@ -2,7 +2,7 @@ package com.example.tpsynthese.domain.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Coordinate(
+data class Coordonate(
     val latitude:Float,
-    val longtitude:Float,
+    val longitude:Float,
 )

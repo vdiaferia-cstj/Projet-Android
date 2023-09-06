@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TpSynthese</string>
+    <string name="title_tickets">Billets</string>
+    <string name="title_gateways">Bornes</string>
+    <string name="title_network">Réseau</string>
+    <string name="Loading_Title">Tenretni</string>
+    <string name="loading_msg">Chargement %d/10 ...</string>
+    <string name="ticket_msg">Billet %s</string>
+    <string name="apiErrorMessage">Erreur pendant la récupération de données du serveur.</string>
+    <string name="qr_code_canceled">Code QR annulé</string>
+    <string name="qr_code_missing_permission">L\'application manque de permissions pour scanner le code QR</string>
+    <string name="qr_code_error">Erreur pendant le scan du code QR</string>
+    <string name="gateway_error">Une erreur est survenue en essayant d\'installer la borne</string>
+    <string name="gateway_success">Borne %s à été installée</string>
+    <string name="title_activity_maps">Localisation</string>
+    <string name="title_list_gateways">Bornes</string>
+    <string name="online">En ligne</string>
+    <string name="ticket">Billet:</string>
+    <string name="open">Ouvrir</string>
+    <string name="solve">Résoudre</string>
+    <string name="install">Installer</string>
+</resources>
